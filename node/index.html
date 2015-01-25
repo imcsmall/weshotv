@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>wesho.tv ad management</title>
+    <style>
+      body { font: 13px Helvetica, Arial; }
+    </style>
+  </head>
+  <body>
+    <ul id="messages">Tag</ul>
+    <form action="">
+      <input id="m" autocomplete="off" />
+    </form>
+	<button type="button" onclick="socket.emit('send ad', $('#m').val());">Send/Play Tag</button>
+      <li>Broadcast Alert</li>
+    <form action="">
+      <input id="b" autocomplete="off" />
+    </form>
+  <button type="button" onclick="socket.emit('bcast', $('#b').val());">Broadcast Message</button>
+    <button type="button" onclick="socket.emit('addlive', $('#b').val());">Add Live Div</button>
+<script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  var socket = io();
+  $('form').submit(function(){
+    socket.emit('send ad', $('#m').val());
+    $('#m').val('');
+    return false;
+  });
+  $('form').submit(function(){
+    socket.emit('bcast', $('#b').val());
+    $('#b').val('');
+    return false;
+  });
+  socket.on('send ad', function(msg){
+    $('#messages').append($('Sent!').text(msg));
+  });
+</script>
+<script>
+var weshosql = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'wesho',
+  password : 'Liveandlocal@weshosql',
+});
+
+weshosql.connect(function(err) {
+  // make alert for sql error sometime. not priority.
+});
+</script>
+  </body>
+</html>
